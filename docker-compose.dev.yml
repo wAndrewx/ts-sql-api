@@ -1,0 +1,17 @@
+services:
+  express-app:
+    image: backend-server
+    build:
+      context: . 
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 8000:8000
+      # - 5432:5432
+    container_name: backend-server
+    env_file: 
+      - .env
+  # db:
+  #   image: postgres
+    
