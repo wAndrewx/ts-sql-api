@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev index.ts",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "docker:dev": "sudo rm ./sql/db -rf && sudo chown -R $USER ./sql && docker-compose -f docker-compose.dev.yml up --build"
   },
   "author": "Andrew Huynh @wAndrewx",
   "license": "MIT",
