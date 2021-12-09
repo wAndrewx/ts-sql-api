@@ -8,5 +8,4 @@
 .env.production.local
 
 npm-debug.log
-/sql
-*.sql
+/sql/db
