@@ -1,17 +1,29 @@
 services:
   express-app:
-    image: backend-server
+    image: backend-server-image
     build:
-      context: . 
+      context: .
       dockerfile: dev.Dockerfile
     volumes:
       - ./:/usr/src/app
     ports:
       - 8000:8000
-      # - 5432:5432
-    container_name: backend-server
-    env_file: 
+    container_name: backend-server-container
+    env_file:
       - .env
-  # db:
-  #   image: postgres
-    
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ts-project
+      - PGDATA=/var/lib/postgresql/data/pgdata/
+    ports:
+      - "5431:5432"
+    # command: command
+    volumes:
+      - ./sql/db:/var/lib/postgresql/data/pgdata/
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    container_name: sql-db
+
+# make sure you add a value to POSTGRES_DB so your .sql file can recognize the familiar db name you worked on locally

@@ -1,7 +1,14 @@
 import { Pool } from 'pg'
 
 // const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PW}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
-const connectionString = 'postgresql://andrew:andrew@localhost:5432/ts-project'
+
+// for docker express container and local db 
+// const connectionString = 'postgresql://andrew:andrew@localhost:5432/ts-project' 
+
+
+// for docker multicontainer @<container_name>:<container_port>
+const connectionString = 'postgresql://postgres:password@sql-db:5432/ts-project' 
+
 // console.log(connectionString)
 
 const server = new Pool({
