@@ -4,9 +4,12 @@
   "description": "authorization api",
   "main": "index.js",
   "scripts": {
+    "build": "tsc --build",
+    "start": "cd build && node index.js",
     "dev": "ts-node-dev index.ts",
     "test": "jest --verbose",
-    "docker:dev": "sudo rm ./sql/db -rf && sudo chown -R $USER ./sql && docker-compose -f docker-compose.dev.yml up --build"
+    "docker:dev": "sudo rm ./sql/db -rf && sudo chown -R $USER ./sql && docker-compose -f docker-compose.dev.yml up --build",
+    "docker:prod": ""
   },
   "author": "Andrew Huynh @wAndrewx",
   "license": "MIT",
@@ -20,8 +23,7 @@
     "helmet": "^4.6.0",
     "jest": "^27.3.1",
     "morgan": "^1.10.0",
-    "pg": "^8.7.1",
-    "winston": "^3.3.3"
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

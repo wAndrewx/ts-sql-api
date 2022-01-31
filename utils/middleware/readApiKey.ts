@@ -15,11 +15,11 @@ const readApiKey: RequestHandler = async (req, res, next) => {
         if (dbLookup.rowCount > 0) {
             res.locals.apiKeyInfo = dbLookup.rows[0]
         } else {
-            return res.status(403).send("Key does not exist")
+            return res.status(403).send({ message: "Key does not exist" })
         }
 
     } catch (error) {
-        return res.status(500).send("Server Error")
+        return res.status(500).send({ message: "Server Error" })
     }
     next()
 }

@@ -3,7 +3,6 @@ import pool from '../db/index'
 let router = Router();
 
 router.get('/projects', async (req, res) => { // anyone can get these
-    console.log(res.locals.apiKeyInfo)
     try {
         let query = await pool.query(
             `
@@ -11,9 +10,9 @@ router.get('/projects', async (req, res) => { // anyone can get these
             ORDER BY project_id ASC
         `
         )
-        return res.send(query.rows)
+        return res.send({ data: query.rows, message: "Success" })
     } catch (error) {
-        return res.status(500).send('Server error')
+        return res.status(500).send({ message: 'Server error' })
     }
 })
 
@@ -25,9 +24,9 @@ router.get('/projects/:author', async (req, res) => { // anyone can get these
             SELECT * FROM projects
             WHERE project_author = $1
         `, [author])
-        return res.send(query.rows)
+        return res.send({ data: query.rows, message: "Success" })
     } catch (error) {
-        return res.status(500).send('Server error')
+        return res.status(500).send({ message: 'Server error' })
 
     }
 })
@@ -35,7 +34,7 @@ router.get('/projects/:author', async (req, res) => { // anyone can get these
 router.post('/projects', async (req, res) => {//only auth level of 2 or greater can post
     let authLevel = res.locals.apiKeyInfo.auth_level
     if (authLevel < 2) {
-        return res.status(401).send("Buy Premium")
+        return res.status(401).send({ message: "Buy Premium" })
     }
 
     let authKey = res.locals.apiKeyInfo.api_key
@@ -46,10 +45,10 @@ router.post('/projects', async (req, res) => {//only auth level of 2 or greater 
                 INSERT INTO projects ("project_name", "project_link", "project_github", "project_author", "project_submitter")
                 VALUES ($1,$2,$3,$4,$5)
             `, [projectName, projectLink, projectGithub, projectAuthor, authKey])
-        res.send('Inserted into table')
+        res.send({ message: 'Inserted into table' })
     } catch (error) {
         console.log(error)
-        res.status(500).send('Server error')
+        res.status(500).send({ message: 'Server error' })
     }
 
 })
@@ -58,7 +57,7 @@ router.patch('/projects/', async (req, res) => { // only auth level of 3 or grea
     const authLevel = res.locals.apiKeyInfo.auth_level
 
     if (authLevel < 3) {
-        return res.status(401).send("Buy Premium")
+        return res.status(401).send({ message: "Buy Premium" })
     }
 
     const conditionProjectName = req.query.projectName
@@ -72,10 +71,10 @@ router.patch('/projects/', async (req, res) => { // only auth level of 3 or grea
         WHERE "project_name" = $2 AND "project_author" = $3
         `
         const query = await pool.query(queryText, [newValue, conditionProjectName, conditionAuthor])
-        return res.send("Updated Column")
+        return res.send({ message: "Updated Column" })
     } catch (error) {
         console.log(error)
-        return res.status(400).send("Check your Query")
+        return res.status(400).send({ message: "Check your Query" })
     }
 
 
@@ -85,13 +84,13 @@ router.delete('/projects', async (req, res) => { // only auth level of 4 or grea
     const authLevel = res.locals.apiKeyInfo.auth_level
 
     if (authLevel < 4) {
-        return res.status(401).send("Buy Premium")
+        return res.status(401).send({ message: "Buy Premium" })
     }
-    
+
     const conditionProjectName = req.query.projectName
     const conditionAuthor = req.query.author
     if (!conditionAuthor || !conditionProjectName) {
-        return res.send('Provide the queries')
+        return res.send({ message: 'Provide the queries' })
     }
     try {
         const query = await pool.query(`
@@ -102,13 +101,13 @@ router.delete('/projects', async (req, res) => { // only auth level of 4 or grea
        `, [conditionProjectName, conditionAuthor])
 
         if (query.rowCount > 0) {
-            return res.status(200).send('Deleted')
+            return res.status(200).send({ message: 'Deleted' })
         } else {
-            return res.send(400).send('Delete failed check parameters')
+            return res.send(400).send({ message: 'Delete failed check parameters' })
         }
 
     } catch (error) {
-        res.status(400).send(error)
+        res.status(400).send({ message: error })
     }
 })
 

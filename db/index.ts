@@ -6,7 +6,7 @@ import { Pool } from 'pg'
 // const connectionString = 'postgresql://andrew:andrew@localhost:5432/ts-project' 
 
 
-// for docker multicontainer @<container_name>:<container_port>
+// for docker multicontainer @<container_name>:<docker-port>/<db-name>
 const connectionString = 'postgresql://postgres:password@sql-db:5432/ts-project' 
 
 // console.log(connectionString)

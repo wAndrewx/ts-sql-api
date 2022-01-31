@@ -1,6 +1,6 @@
 services:
   express-app:
-    image: backend-server-image
+    image: backend-server-image-dev
     build:
       context: .
       dockerfile: dev.Dockerfile
@@ -8,7 +8,7 @@ services:
       - ./:/usr/src/app
     ports:
       - 8000:8000
-    container_name: backend-server-container
+    container_name: backend-server-container-dev
     env_file:
       - .env
   db:

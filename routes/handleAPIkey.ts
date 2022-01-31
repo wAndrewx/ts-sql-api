@@ -1,3 +1,4 @@
+import { readApiKey } from '../utils/middleware/readApiKey';
 import { Router } from 'express'
 import pool from '../db/index'
 import { generator } from '../utils/apiKey'
@@ -26,7 +27,7 @@ router.get('/generate', async (req, res) => {
 		}
 
 
-		return res.send({ key: keyGenerator.uuid })
+		return res.send({ data: keyGenerator.uuid })
 	} catch (error) {
 		console.log(error)
 		return res.send(error)
@@ -34,9 +35,11 @@ router.get('/generate', async (req, res) => {
 
 })
 
-// router.get('/', async (req, res) => { // authlevel > 9 can fetch all apikeys
+router.get('/', readApiKey, async (req, res) => { // authlevel > 9 can fetch all apikeys
 
-// })
+
+
+})
 
 // router.get('/:apiKey', async (req, res) => { // authlevel > 9 can fetch apikey and logs
 
@@ -44,7 +47,7 @@ router.get('/generate', async (req, res) => {
 
 // router.put('/:apiKey', async (req, res) => {
 
-// }) // auth level 8 > can update other auth levels
+// }) // auth level > 8  can update other auth levels
 
 
 

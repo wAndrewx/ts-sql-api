@@ -9,3 +9,5 @@
 
 npm-debug.log
 /sql/db
+
+/build

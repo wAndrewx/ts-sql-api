@@ -1,7 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
-
+import helmet, { frameguard } from "helmet"
 import handleProjects from './routes/handleProjects'
 import handleAPIKey from './routes/handleAPIkey'
 import { setAuthMultiplier } from './utils/middleware/setAuthMultiplier'
@@ -10,18 +10,24 @@ import { limitThreeMultiPerDay, limitKMultiPerHour } from './utils/middleware/ra
 import pool from './db/index'
 const app = express()
 app.use(morgan("tiny"))
-app.use(cors({ origin: true }))
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: "same-site" },
+    frameguard: false,
+    permittedCrossDomainPolicies: { permittedPolicies: "none" }
+}))
+app.disable("x-powered-by")
+app.use(cors({ origin: "*" }))
 app.use(express.json())
 
-
 app.use('/key', limitThreeMultiPerDay, handleAPIKey)
-app.use(readApiKey)
-app.use(setAuthMultiplier)
-
-app.use('/api', limitKMultiPerHour, handleProjects)
+app.use('/api', readApiKey, setAuthMultiplier, limitKMultiPerHour, handleProjects)
 
 app.get('/', async (req, res) => {
     return res.send("Connected")
+})
+app.get('/test',(req,res)=>{
+    return res.send("Test proxy")
 })
 
 

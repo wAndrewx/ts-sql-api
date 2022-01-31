@@ -23,7 +23,7 @@ SET row_security = off;
 -- Name: ts-project; Type: DATABASE; Schema: -; Owner: postgres
 --
 
--- CREATE DATABASE "ts-project" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.UTF-8';
+CREATE DATABASE "ts-project" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.UTF-8';
 
 
 ALTER DATABASE "ts-project" OWNER TO postgres;
